@@ -113,33 +113,37 @@ class MyWindow(QMainWindow):
             self.pixmap = QtGui.QPixmap(os.path.join(self.root, fileName))
 
             if self.inference is not None:
-                pred = self.inference.loc[self.inference['image_id'] == fileName]["PredictionString"].item().split()
-                predDic = []
-                for i in range(0, len(pred), 6):
-                    info = {}
-                    info["class"] = pred[i]
-                    info["conf"] = pred[i+1]
-                    info["bbox"] = [pred[i+2], pred[i+3], pred[i+4], pred[i+5]]
-                    predDic.append(info)
+                try:
 
-                painterInstance = QtGui.QPainter(self.pixmap)
-                penRectangle = QtGui.QPen(QtCore.Qt.red)
-                penRectangle.setWidth(5)
-                print('total predit:', len(predDic), fileName)
-                for dic in predDic:
-        
-                    penRectangle.setColor(self.color[int(dic["class"])])
-                    painterInstance.setPen(penRectangle)
-                    x, y = float(dic["bbox"][0]), float(dic["bbox"][1])
-                    width = float(dic["bbox"][2]) - float(dic["bbox"][0])
-                    height = float(dic["bbox"][3])- float(dic["bbox"][1])
-                    painterInstance.drawRect(x, y, width, height)
-                    painterInstance.setFont(QtGui.QFont('Arial', 24))
-                    painterInstance.drawText(x+5, y+20, self.classes[int(dic["class"])])
-                    
-                    time.sleep(.05)
+                    pred = self.inference.loc[self.inference['image_id'] == fileName]["PredictionString"].item().split()
+                    predDic = []
+                    for i in range(0, len(pred), 6):
+                        info = {}
+                        info["class"] = pred[i]
+                        info["conf"] = pred[i+1]
+                        info["bbox"] = [pred[i+2], pred[i+3], pred[i+4], pred[i+5]]
+                        predDic.append(info)
 
-                painterInstance.end()
+                    painterInstance = QtGui.QPainter(self.pixmap)
+                    penRectangle = QtGui.QPen(QtCore.Qt.red)
+                    penRectangle.setWidth(5)
+                    print('total predit:', len(predDic), fileName)
+                    for dic in predDic:
+            
+                        penRectangle.setColor(self.color[int(dic["class"])])
+                        painterInstance.setPen(penRectangle)
+                        x, y = float(dic["bbox"][0]), float(dic["bbox"][1])
+                        width = float(dic["bbox"][2]) - float(dic["bbox"][0])
+                        height = float(dic["bbox"][3])- float(dic["bbox"][1])
+                        painterInstance.drawRect(x, y, width, height)
+                        painterInstance.setFont(QtGui.QFont('Arial', 24))
+                        painterInstance.drawText(x+5, y+20, self.classes[int(dic["class"])])
+                        
+                        time.sleep(.05)
+
+                    painterInstance.end()
+                except:
+                    print("There is no prediction")
             self.pixmap = self.pixmap.scaledToWidth(720)
             self.imageLabel.setPixmap(self.pixmap)
 
@@ -150,33 +154,36 @@ class MyWindow(QMainWindow):
             self.pixmap = QtGui.QPixmap(os.path.join(self.root, fileName))
 
             if self.inference is not None:
-                pred = self.inference.loc[self.inference['image_id'] == fileName]["PredictionString"].item().split()
-                predDic = []
-                for i in range(0, len(pred), 6):
-                    info = {}
-                    info["class"] = pred[i]
-                    info["conf"] = pred[i+1]
-                    info["bbox"] = [pred[i+2], pred[i+3], pred[i+4], pred[i+5]]
-                    predDic.append(info)
+                try:
+                    pred = self.inference.loc[self.inference['image_id'] == fileName]["PredictionString"].item().split()
+                    predDic = []
+                    for i in range(0, len(pred), 6):
+                        info = {}
+                        info["class"] = pred[i]
+                        info["conf"] = pred[i+1]
+                        info["bbox"] = [pred[i+2], pred[i+3], pred[i+4], pred[i+5]]
+                        predDic.append(info)
 
-                painterInstance = QtGui.QPainter(self.pixmap)
-                penRectangle = QtGui.QPen(QtCore.Qt.red)
-                penRectangle.setWidth(5)
-                print('total predit:', len(predDic), fileName)
-                for dic in predDic:
-        
-                    penRectangle.setColor(self.color[int(dic["class"])])
-                    painterInstance.setPen(penRectangle)
-                    x, y = float(dic["bbox"][0]), float(dic["bbox"][1])
-                    width = float(dic["bbox"][2]) - float(dic["bbox"][0])
-                    height = float(dic["bbox"][3])- float(dic["bbox"][1])
-                    painterInstance.drawRect(x, y, width, height)
-                    painterInstance.setFont(QtGui.QFont('Arial', 24))
-                    painterInstance.drawText(x+5, y+20, self.classes[int(dic["class"])])
-                    
-                    time.sleep(.05)
+                    painterInstance = QtGui.QPainter(self.pixmap)
+                    penRectangle = QtGui.QPen(QtCore.Qt.red)
+                    penRectangle.setWidth(5)
+                    print('total predit:', len(predDic), fileName)
+                    for dic in predDic:
+            
+                        penRectangle.setColor(self.color[int(dic["class"])])
+                        painterInstance.setPen(penRectangle)
+                        x, y = float(dic["bbox"][0]), float(dic["bbox"][1])
+                        width = float(dic["bbox"][2]) - float(dic["bbox"][0])
+                        height = float(dic["bbox"][3])- float(dic["bbox"][1])
+                        painterInstance.drawRect(x, y, width, height)
+                        painterInstance.setFont(QtGui.QFont('Arial', 24))
+                        painterInstance.drawText(x+5, y+20, self.classes[int(dic["class"])])
+                        
+                        time.sleep(.05)
 
-                painterInstance.end()
+                    painterInstance.end()
+                except:
+                    print("There is no prediction")
             self.pixmap = self.pixmap.scaledToWidth(720)
             self.imageLabel.setPixmap(self.pixmap)
 
