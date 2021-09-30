@@ -24,6 +24,7 @@ class MyWindow(QMainWindow):
                     QtCore.Qt.blue, QtCore.Qt.yellow, QtCore.Qt.magenta,
                      QtCore.Qt.cyan, QtCore.Qt.black, QtCore.Qt.darkRed,
                       QtCore.Qt.darkGreen]
+        self.colorText = ["white", "red", "green", "blue", "yellow","magenta","cyan", "black","darkRed","darkGreen"]
         self.classes = ["General trash", "Paper", "Paper pack", "Metal", 
                     "Glass", "Plastic", "Styrofoam", "Plastic bag", "Battery", "Clothing"]
         self.initUI()
@@ -58,11 +59,11 @@ class MyWindow(QMainWindow):
 
         # label
         self.imageLabel = QLabel('image')
-        self.imageLabel.setStyleSheet("background-color: #ffffff")
+        #self.imageLabel.setStyleSheet("background-color: #ffffff")
         # self.imageLabel.resize(720, 720)
-        self.imageLabel.setText("temp")
-        self.pixmap = QtGui.QPixmap(os.path.join(self.root, self.images[self.current]["file_name"])).scaledToWidth(720)
-        self.imageLabel.setPixmap(self.pixmap)
+        self.imageLabel.setText("Inference tool for Boostcamp")
+        #self.pixmap = QtGui.QPixmap(os.path.join(self.root, self.images[self.current]["file_name"])).scaledToWidth(720)
+        #self.imageLabel.setPixmap(self.pixmap)
 
 
         # button
@@ -78,17 +79,29 @@ class MyWindow(QMainWindow):
         buttonHbox.addWidget(nextButton)
         buttonHbox.addStretch(1)
 
+        legendVbox = QVBoxLayout()
+
+        for i in range(len(self.classes)):
+            label = QLabel(self.classes[i])
+            label.setText(self.classes[i])
+            fontColor = "color : balck;" if self.colorText[i] == "white" else "color : gray;"
+            label.setStyleSheet(
+                fontColor+
+                f"background-color: {self.colorText[i]};"
+            )
+            legendVbox.addWidget(label)
+            
         labelHbox = QHBoxLayout()
+        
         labelHbox.addStretch(1)
+        labelHbox.addLayout(legendVbox)
         labelHbox.addWidget(self.imageLabel)
         labelHbox.addStretch(1)
 
         vbox = QVBoxLayout()
-        vbox.addStretch(5)
         vbox.addLayout(labelHbox)
         vbox.addStretch(5)
         vbox.addLayout(buttonHbox)
-        vbox.addStretch(1)
 
         widget = QWidget()
         self.setCentralWidget(widget)
@@ -96,7 +109,7 @@ class MyWindow(QMainWindow):
 
         # window
         self.setWindowTitle("Inference Checker v1.0")
-        self.setGeometry(1280, 1280, 1024, 1024)
+        self.setGeometry(1024, 1024, 1280, 1280)
         self.center()
         self.show()
 
@@ -137,14 +150,14 @@ class MyWindow(QMainWindow):
                         height = float(dic["bbox"][3])- float(dic["bbox"][1])
                         painterInstance.drawRect(x, y, width, height)
                         painterInstance.setFont(QtGui.QFont('Arial', 24))
-                        painterInstance.drawText(x+5, y+20, self.classes[int(dic["class"])])
+                        painterInstance.drawText(x+5, y+20, f"{dic['conf']:.4}")#self.classes[int(dic['class'])])
                         
                         time.sleep(.05)
 
                     painterInstance.end()
                 except:
                     print("There is no prediction")
-            self.pixmap = self.pixmap.scaledToWidth(720)
+            self.pixmap = self.pixmap.scaledToWidth(650)
             self.imageLabel.setPixmap(self.pixmap)
 
     def eventPrevious(self):
@@ -177,14 +190,14 @@ class MyWindow(QMainWindow):
                         height = float(dic["bbox"][3])- float(dic["bbox"][1])
                         painterInstance.drawRect(x, y, width, height)
                         painterInstance.setFont(QtGui.QFont('Arial', 24))
-                        painterInstance.drawText(x+5, y+20, self.classes[int(dic["class"])])
+                        painterInstance.drawText(x+5, y+20, f"{dic['conf']:.4}") #self.classes[int(dic['class'])])
                         
                         time.sleep(.05)
 
                     painterInstance.end()
                 except:
                     print("There is no prediction")
-            self.pixmap = self.pixmap.scaledToWidth(720)
+            self.pixmap = self.pixmap.scaledToWidth(650)
             self.imageLabel.setPixmap(self.pixmap)
 
     def openDialog(self):
