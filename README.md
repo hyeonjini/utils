@@ -5,7 +5,8 @@ Boostcamp P-Stage Level-2 Object Detection 대회에서 모델 결과를 좀 더
 ## install
 #### Window
 `pip install PyQt5`<br>
-`python main.py`
+`python inference_checker/main.py`<br>
+`python trainset_checker/main.py`
 
 #### Mac
 reference here<br>
@@ -19,7 +20,13 @@ inference_checker/
 | ├── train/
 | └── test.json
 | └── train.json
-└── main.py
+|
+├── inference_checker/
+|  └── main.py
+|
+├── trainset_checker/
+|  └── main.py
+|
 └── submission.csv
 ```
 
